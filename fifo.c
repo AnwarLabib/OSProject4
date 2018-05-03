@@ -36,8 +36,8 @@ void handleInterrupt();
 void clearR();
 int list_includes(int pageId);
 int list_size();
-void push(struct Page page);
-struct Page pop();
+void push(struct Page page); //Push at the end (TAIL)
+struct Page pop(); //Pop first element (HEAD)
 void print_list();
 
 //ATTRIBUTES
@@ -58,8 +58,8 @@ int main()
     size_t len = 0;
     ssize_t read;
     int a = 0;
-    fp = fopen(path, "r");
-    if (fp) //Store input file in pages array
+    fp = fopen(path, "r"); // We are going to read this file
+    if (fp) //We are going to store the information of the input file in the pageReqeusts array
     {
         while ((read = getline(&line, &len, fp)) != -1)
         {
@@ -102,20 +102,20 @@ int main()
     }
 
     int i;
-    for (i = 0; i < countOfPageRequests; i += 1)
+    for (i = 0; i < countOfPageRequests; i += 1) //Loop until all page requests are over
     {
-        if(time+20<=pageRequests[i].accessTime){
+        if(time+20<=pageRequests[i].accessTime){ //checks if we should handle time interrupt
             handleInterrupt();
         }
-        if(list_includes(pageRequests[i].pageId)==1){
+        if(list_includes(pageRequests[i].pageId)==1){ //if the list includes the page then we will just modify it
             printf("PAGE FOUND\n");
-            printf("Time: %i\n",pageRequests[i].accessTime);
+            printf("Time: %ims\n",pageRequests[i].accessTime);
             printf("id of modified page: %i\n",pageRequests[i].pageId);
             fprintf(file,"PAGE FOUND\n");
             fprintf(file,"Time: %i\n",pageRequests[i].accessTime);
             fprintf(file,"id of modified page: %i\n",pageRequests[i].pageId);
             handlNotFault(pageRequests[i]);
-        } else{
+        } else{ // If the list does not include the page we will handle fault
             printf("PAGE FAULT\n");
             printf("Time: %i\n",pageRequests[i].accessTime);
             printf("id of loaded page: %i\n",pageRequests[i].pageId);
@@ -123,37 +123,37 @@ int main()
             fprintf(file,"Time: %i\n",pageRequests[i].accessTime);
             fprintf(file,"id of loaded page: %i\n",pageRequests[i].pageId);
 
-            struct Page newPage = EmptyPage;
+            struct Page newPage = EmptyPage; //new Page to be inserted in the linked list
             newPage.pageId = pageRequests[i].pageId;
             newPage.accessTime = pageRequests[i].accessTime;
-            if(pageRequests[i].accessType==0){
+            if(pageRequests[i].accessType==0){ // setting the R&M flag from access type
                 newPage.R = 1;
                 newPage.M = 0;
             } else{
                 newPage.R = 0;
                 newPage.M = 1;            
             }
-            handleFault(newPage);
+            handleFault(newPage); //Handle fault in FIFO means remove Head and add new page in Tail(If linked list is full - size 5)
         }
     }
 
 }
 
 struct Page handleFault(struct Page newPage){
-    if(list_size()<5){
+    if(list_size()<5){ // if linked list is less than 5 then just add the new page
         push(newPage);
         printf("id of evicted page: n/a\n");
         fprintf(file,"id of evicted page: n/a\n");
         print_list(head);
-    } else{
-        struct Page evictedPage = pop();
+    } else{ //If linked list is full then remove head and put new page in tail
+        struct Page evictedPage = pop(); // Remove head
         printf("id of evicted page:%i\n",evictedPage.pageId);
         fprintf(file,"id of evicted page:%i\n",evictedPage.pageId);
-        if(evictedPage.M ==1){
+        if(evictedPage.M ==1){ // if Modified bit is 1 then the page must be written back to disk 
             printf("Evicted Page Written Back to disk\n");
             fprintf(file,"Evicted Page Written Back to disk\n");
         }
-        push(newPage);
+        push(newPage);//put new page in tail
         print_list(head);
     } 
 }
