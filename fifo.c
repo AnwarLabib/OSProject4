@@ -4,32 +4,54 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-struct Page
+struct PageRequest
 {
     int pageId;
     int accessTime;
     int accessType; // 0 For R and 1 For M
 };
 
+struct Page
+{
+    int pageId;
+    int accessTime;
+    int R;
+    int M;
+};
+
+typedef struct node {
+    struct Page page;
+    struct node * next;
+} node_t;
+
+static const struct PageRequest EmptyPageRequest;
 static const struct Page EmptyPage;
 
 // METHODS DEFINITION
-void printPagesArray(struct Page pages[], int size);
-void printPagesArray2(struct Page pages[], int size);
+void printPagesArray(struct PageRequest pages[], int size);
+void printPagesArray2(struct PageRequest pages[], int size);
 struct Page handleFault(struct Page newPage);
-// bool loadPlayer(struct Wheel* wheel);
-// struct Player removeIndex(int index);
+void handlNotFault(struct PageRequest newPage);
+void handleInterrupt();
+void clearR();
+int list_includes(int pageId);
+int list_size();
+void push(struct Page page);
+struct Page pop();
+void print_list();
 
 //ATTRIBUTES
-int countOfPages; // total number of pages
-int countOfCurrentPages = 0; // number of pages in pagesList
-struct Page pages[100]; // input file will be saved here
-struct Page pagesList[5]; // this is the linked list that represents the page frames
+int countOfPageRequests; // total number of page requests
+int countOfPages = 0; // number of pages in pagesList
+struct PageRequest pageRequests[100]; // input file will be saved here
+node_t * head = NULL; // this is the head of the linked list that represents the page frames
 char path[] = "pages.txt";
 int time = 0;
+FILE *file;
 
 int main()
 {
+    file = fopen("Output.txt", "w");// "w" means that we are going to write on this file
 
     FILE *fp;
     char *line = NULL;
@@ -44,26 +66,26 @@ int main()
             char *pch;
             pch = strtok(line, ",");
             int j = 0;
-            struct Page page;
+            struct PageRequest page;
             while (pch != NULL)
             {
                 if (j == 0)
                 {
-                    pages[a].pageId = atoi(pch);
+                    pageRequests[a].accessTime = atoi(pch);
                 }
                 else if (j == 1)
                 {
-                    pages[a].accessTime = atoi(pch);
+                    pageRequests[a].pageId = atoi(pch);
                 }
                 else if (j == 2)
                 {
                     if (strstr(pch, "R") != NULL)
                     {
-                        pages[a].accessType = 0;
+                        pageRequests[a].accessType = 0;
                     }
                     if (strstr(pch, "W") != NULL)
                     {
-                        pages[a].accessType = 1;
+                        pageRequests[a].accessType = 1;
                     }
                 }
                 j++;
@@ -74,42 +96,177 @@ int main()
                 a--;
             }
             a++;
-            countOfPages++;
+            countOfPageRequests++;
         }
         fclose(fp);
     }
+
     int i;
-    for (i = 0; i < countOfPages; i += 1)
+    for (i = 0; i < countOfPageRequests; i += 1)
     {
-        printf("Page to be inserted: %i\n",pages[i].pageId);
-        handleFault(pages[i]);
-        printPagesArray(pagesList, countOfCurrentPages);
+        if(time+20<=pageRequests[i].accessTime){
+            handleInterrupt();
+        }
+        if(list_includes(pageRequests[i].pageId)==1){
+            printf("PAGE FOUND\n");
+            printf("Time: %i\n",pageRequests[i].accessTime);
+            printf("id of modified page: %i\n",pageRequests[i].pageId);
+            fprintf(file,"PAGE FOUND\n");
+            fprintf(file,"Time: %i\n",pageRequests[i].accessTime);
+            fprintf(file,"id of modified page: %i\n",pageRequests[i].pageId);
+            handlNotFault(pageRequests[i]);
+        } else{
+            printf("PAGE FAULT\n");
+            printf("Time: %i\n",pageRequests[i].accessTime);
+            printf("id of loaded page: %i\n",pageRequests[i].pageId);
+            fprintf(file,"PAGE FAULT\n");
+            fprintf(file,"Time: %i\n",pageRequests[i].accessTime);
+            fprintf(file,"id of loaded page: %i\n",pageRequests[i].pageId);
+
+            struct Page newPage = EmptyPage;
+            newPage.pageId = pageRequests[i].pageId;
+            newPage.accessTime = pageRequests[i].accessTime;
+            if(pageRequests[i].accessType==0){
+                newPage.R = 1;
+                newPage.M = 0;
+            } else{
+                newPage.R = 0;
+                newPage.M = 1;            
+            }
+            handleFault(newPage);
+        }
     }
 
 }
 
 struct Page handleFault(struct Page newPage){
-
-    int i;
-    struct Page page;
-    page = pagesList[0];
-    if(countOfCurrentPages==5){
-        for (i = 0; i < countOfCurrentPages-1; i += 1)
-        {
-            pagesList[i] = pagesList[i+1];
-
+    if(list_size()<5){
+        push(newPage);
+        printf("id of evicted page: n/a\n");
+        fprintf(file,"id of evicted page: n/a\n");
+        print_list(head);
+    } else{
+        struct Page evictedPage = pop();
+        printf("id of evicted page:%i\n",evictedPage.pageId);
+        fprintf(file,"id of evicted page:%i\n",evictedPage.pageId);
+        if(evictedPage.M ==1){
+            printf("Evicted Page Written Back to disk\n");
+            fprintf(file,"Evicted Page Written Back to disk\n");
         }
-        countOfCurrentPages--;
-    }
-    pagesList[countOfCurrentPages] = newPage;
-    countOfCurrentPages++;
-
-    return page;
+        push(newPage);
+        print_list(head);
+    } 
 }
 
-void printPagesArray(struct Page pages[], int size)
+void handlNotFault(struct PageRequest pageRequest){
+    node_t * current = head;
+
+    while (current != NULL) {
+        if(current->page.pageId==pageRequest.pageId){
+            if(pageRequest.accessType==0){ //R BIT
+                current->page.R = 1;
+            } else{
+                current->page.M = 1;                
+            }
+        }
+        current = current->next;
+    }
+    print_list(head);  
+}
+
+void handleInterrupt(){
+    time = time + 20;
+    printf("TIME INTERRUPT : %ims\n",time);
+    fprintf(file,"TIME INTERRUPT : %ims\n",time);
+    clearR();
+    print_list();
+}
+
+void clearR(){
+    node_t * current = head;
+
+    while (current != NULL) {
+        current->page.R = 0;
+        current = current->next;
+    } 
+}
+
+
+int list_includes(int pageId){
+    node_t * current = head;
+
+    while (current != NULL) {
+        if(current->page.pageId==pageId){
+            return 1;
+        }
+        current = current->next;
+    } 
+    return 0;
+}
+
+int list_size(){
+    int size = 0;
+    node_t * current = head;
+
+    while (current != NULL) {
+        current = current->next;
+        size++;
+    } 
+    return size;
+}
+
+void push(struct Page page) {
+    node_t * current = head;
+    if(current==NULL){
+        head = malloc(sizeof(node_t));
+        head->page = page;
+        head->next = NULL;
+    } else{
+        while (current->next != NULL) {
+            current = current->next;
+        }
+
+        /* now we can add a new variable */
+        current->next = malloc(sizeof(node_t));
+        current->next->page = page;
+        current->next->next = NULL;
+    }
+}
+
+struct Page pop() {
+    struct Page retval = EmptyPage;
+    node_t * next_node = NULL;
+
+    if (head == NULL) {
+        return EmptyPage;
+    }
+
+    next_node = (head)->next;
+    retval = (head)->page;
+    free(head);
+    head = next_node;
+
+    return retval;
+}
+
+
+void print_list() {
+    node_t * current = head;
+    printf("LINKED LIST: \n");
+    fprintf(file,"LINKED LIST: \n");
+    while (current != NULL) {
+        printf("pageID:%i, Access Time:%i, R:%i, W:%i\n", current->page.pageId,current->page.accessTime,current->page.R,current->page.M);
+        fprintf(file,"pageID:%i, Access Time:%i, R:%i, W:%i\n", current->page.pageId,current->page.accessTime,current->page.R,current->page.M);
+        current = current->next;
+    }
+    printf("************************************\n");
+    fprintf(file,"************************************\n");
+}
+
+
+void printPagesArray(struct PageRequest pages[], int size)
 {
-    struct Page page;
+    struct PageRequest page;
     page = pages[0];
     int i;
     printf("Pages currently in arrayList:\n");
@@ -122,9 +279,9 @@ void printPagesArray(struct Page pages[], int size)
     printf("********************************************\n");
 }
 
-void printPagesArray2(struct Page pages[], int size)
+void printPagesArray2(struct PageRequest pages[], int size)
 {
-    struct Page page;
+    struct PageRequest page;
     page = pages[0];
     int i;
     for (i = 0; i < size; i += 1)
