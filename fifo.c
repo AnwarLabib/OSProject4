@@ -51,7 +51,7 @@ FILE *file;
 
 int main()
 {
-    file = fopen("Output.txt", "w");// "w" means that we are going to write on this file
+    file = fopen("FIFO-Output.txt", "w");// "w" means that we are going to write on this file
 
     FILE *fp;
     char *line = NULL;
