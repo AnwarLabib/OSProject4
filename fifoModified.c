@@ -137,7 +137,6 @@ int main()
                 newPage.R = 0;
                 newPage.M = 1;
             }
-                    printf("----Page R id:%i\n",pageRequests[i].accessType);
             handleFault(newPage); //Handle fault in FIFO means remove Head and add new page in Tail(If linked list is full - size 5)
         }
         //struct Page lastItem = getLastItem();
