@@ -161,8 +161,6 @@ struct Page handleFault(struct Page newPage){
 
 void handlNotFault(struct PageRequest pageRequest){
     node_t * current = head;
-    int index =0;
-    int pageIndex=0;
     while (current != NULL) {
         if(current->page.pageId==pageRequest.pageId){
             if(pageRequest.accessType==0){ //R BIT
@@ -170,13 +168,9 @@ void handlNotFault(struct PageRequest pageRequest){
             } else{
                 current->page.M = 1;                
             }
-            current->page.accessTime = pageRequest.accessTime;
-            pageIndex=index;
         }
-        index++;
         current = current->next;
     }
-    putLast(pageIndex);
     print_list(head);  
 }
 
