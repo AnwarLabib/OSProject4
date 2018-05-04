@@ -38,6 +38,7 @@ int list_includes(int pageId);
 int list_size();
 void push(struct Page page); //Push at the end (TAIL)
 struct Page pop(); //Pop first element (HEAD)
+void putLast(int index);
 void print_list();
 
 //ATTRIBUTES
@@ -160,7 +161,8 @@ struct Page handleFault(struct Page newPage){
 
 void handlNotFault(struct PageRequest pageRequest){
     node_t * current = head;
-
+    int index =0;
+    int pageIndex=0;
     while (current != NULL) {
         if(current->page.pageId==pageRequest.pageId){
             if(pageRequest.accessType==0){ //R BIT
@@ -168,9 +170,13 @@ void handlNotFault(struct PageRequest pageRequest){
             } else{
                 current->page.M = 1;                
             }
+            current->page.accessTime = pageRequest.accessTime;
+            pageIndex=index;
         }
+        index++;
         current = current->next;
     }
+    putLast(pageIndex);
     print_list(head);  
 }
 
@@ -247,6 +253,23 @@ struct Page pop() {
     head = next_node;
 
     return retval;
+}
+
+void putLast(int index){
+    node_t * current = head;
+    int i=0;
+    int size = list_size();
+    struct Page modifiedPage = EmptyPage;
+    while (i<size) {
+        struct Page page = pop();
+        if(i!=index){
+            push(page);
+        } else{
+            modifiedPage = page;
+        }
+        i++;
+    }
+    push(modifiedPage); 
 }
 
 
