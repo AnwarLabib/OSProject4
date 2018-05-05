@@ -38,11 +38,15 @@ int list_includes(int pageId);
 int list_size();
 void push(struct Page page); //Push at the end (TAIL)
 struct Page pop(); //Pop first element (HEAD)
+struct Page deleteLast();
 struct Page getLastItem();
-struct Page popModified();
+struct Page popModified(struct Page newPage);
 void putLast(int index);
 void print_list();
 int countRMzeros();
+int countR1M0();
+int countR0M1();
+int countRones();
 int pindex;
 
 //ATTRIBUTES
@@ -53,10 +57,14 @@ node_t * head = NULL; // this is the head of the linked list that represents the
 char path[] = "pages.txt";
 int time = 0;
 FILE *file;
+FILE *file2;
 
 int main()
 {
-    file = fopen("FIFO-Output.txt", "w");// "w" means that we are going to write on this file
+    printf("You will find two files: one detailed and one short\n");
+    printf("Please read the detailed file if anything is not clear in the short one\n");
+    file = fopen("Detailed-SecondChance-Output.txt", "w");// "w" means that we are going to write on this file
+    file2 = fopen("SecondChance-Output.txt", "w");// "w" means that we are going to write on this file
 
     FILE *fp;
     char *line = NULL;
@@ -114,20 +122,16 @@ int main()
             handleInterrupt();
         }
         if(list_includes(pageRequests[i].pageId)==1){ //if the list includes the page then we will just modify it
-            printf("PAGE FOUND\n");
-            printf("Time: %ims\n",pageRequests[i].accessTime);
-            printf("id of modified page: %i\n",pageRequests[i].pageId);
             fprintf(file,"PAGE FOUND\n");
-            fprintf(file,"Time: %i\n",pageRequests[i].accessTime);
+            fprintf(file,"Time: %ims\n",pageRequests[i].accessTime);
             fprintf(file,"id of modified page: %i\n",pageRequests[i].pageId);
             handlNotFault(pageRequests[i]);
         } else{ // If the list does not include the page we will handle fault
-            printf("PAGE FAULT\n");
-            printf("Time: %i\n",pageRequests[i].accessTime);
-            printf("id of loaded page: %i\n",pageRequests[i].pageId);
             fprintf(file,"PAGE FAULT\n");
-            fprintf(file,"Time: %i\n",pageRequests[i].accessTime);
+            fprintf(file,"Time: %ims\n",pageRequests[i].accessTime);
             fprintf(file,"id of loaded page: %i\n",pageRequests[i].pageId);
+            fprintf(file2,"PAGE FAULT\n");
+            fprintf(file2,"Time: %ims, id of loaded page: %i, ",pageRequests[i].accessTime,pageRequests[i].pageId);
 
             struct Page newPage = EmptyPage; //new Page to be inserted in the linked list
             newPage.pageId = pageRequests[i].pageId;
@@ -150,47 +154,45 @@ int main()
 struct Page handleFault(struct Page newPage){
     if(list_size()<5){ // if linked list is less than 5 then just add the new page
         push(newPage);
-        printf("id of evicted page: n/a\n");
         fprintf(file,"id of evicted page: n/a\n");
+        fprintf(file2,"id of evicted page: n/a\n");
+        fprintf(file2,"*****************************************\n");
         print_list(head);
-    } else{ //If linked list is full then remove head and put new page in tail
-        struct Page evictedPage = popModified();
-        printf("id of evicted page:%i\n",evictedPage.pageId);
+    } else{
+        struct Page evictedPage = popModified(newPage);
         fprintf(file,"id of evicted page:%i\n",evictedPage.pageId);
+        fprintf(file2,"id of evicted page:%i\n",evictedPage.pageId);
         if(evictedPage.M ==1){ // if Modified bit is 1 then the page must be written back to disk
-            printf("Evicted Page Written Back to disk\n");
             fprintf(file,"Evicted Page Written Back to disk\n");
+            fprintf(file2,"Evicted Page Written Back to disk\n");
         }
         push(newPage);//put new page in tail
+        fprintf(file2,"*****************************************\n");
         print_list(head);
     }
 }
 
 void handlNotFault(struct PageRequest pageRequest){
     node_t * current = head;
-    int index =0;
-    int pageIndex=0;
     while (current != NULL) {
         if(current->page.pageId==pageRequest.pageId){
             if(pageRequest.accessType==0){ //R BIT
                 current->page.R = 1;
             } else{
-                current->page.M = 1;
+                current->page.M = 1;                
             }
-            //current->page.accessTime = pageRequest.accessTime;
-            pageIndex=index;
         }
-        index++;
         current = current->next;
     }
-  //  putLast(pageIndex);
-    print_list(head);
+    print_list(head);  
 }
 
 void handleInterrupt(){
     time = time + 20;
-    printf("TIME INTERRUPT : %ims\n",time);
     fprintf(file,"TIME INTERRUPT : %ims\n",time);
+    fprintf(file2,"TIME INTERRUPT : %ims\n",time);
+    fprintf(file,"*****************************************\n");
+    fprintf(file2,"*****************************************\n");
     clearR();
     print_list();
 }
@@ -262,6 +264,20 @@ struct Page pop() {
     return retval;
 }
 
+struct Page deleteLast() {
+    node_t * current = head;
+    struct Page retval = EmptyPage;
+
+    int size = list_size();
+
+    for(int i=0;i<size-1;i++){
+        push(pop());
+    }
+    
+    return pop();
+}
+
+
 //NOT NECESSARY, MISTAKE
 // struct Page getLastItem()
 // {
@@ -280,51 +296,155 @@ struct Page pop() {
 int countRMzeros(){
 
     int count = 0;
-    int size = 0;
+    node_t * current = head;
+
+    while (current != NULL) {
+        if(current->page.R == 0 && current->page.M == 0){
+          count++;
+        }
+        current = current->next;
+    }
+    return count;
+}
+
+int countR1M0(){
+
+    int count = 0;
+    node_t * current = head;
+
+    while (current != NULL) {
+        if(current->page.R == 1 && current->page.M == 0){
+          count++;
+        }
+        current = current->next;
+    }
+    return count;
+}
+
+int countR0M1(){
+
+    int count = 0;
+    node_t * current = head;
+
+    while (current != NULL) {
+        if(current->page.R == 0 && current->page.M == 1){
+          count++;
+        }
+        current = current->next;
+    }
+    return count;
+}
+
+int countRones(){
+
+    int count = 0;
     pindex = -1;
     node_t * current = head;
 
     while (current != NULL) {
-        if(current->page.R == 0 && current->page.M == 0 && pindex == -1){
+        if(current->page.R == 1){
           count++; //if the count is zero, i have no combinations of r and m = 0, so remove first one with zero
-          pindex = size;
         }
         current = current->next;
-        size++;
     }
-    printf("Count of RM zero: %i\n", count);
-    printf("%i\n", pindex);
     return count;
 }
 
-struct Page popModified(){
-  //struct Page lastItem = getLastItem();
+// struct Page popModified(struct Page newPage)
+// {
+//     node_t *current = head;
+//     if(countRones()!=list_size()){
+//         // Here we are sure that there is an R with 0
+//         if (current->page.R == 0) //If first R = 0 then search. If R = 1 then set it to zero and put it at the back
+//         {
+//             int c = countRMzeros();
+//             if (c == 0) //Here we are sure that all are R=0 and M=1 then remove first one
+//             { 
+//                 return pop();
+//             }
+//             else //Here we are sure that there exists R=0 and M=0 then remove first one
+//             { 
+//                 int i = 0;
+//                 int index = -1;
+//                 while (current != NULL && index == -1)
+//                 {
+//                     if (current->page.R == 0 && current->page.M == 0)
+//                     { //remove awel wa7da fiha r=0 and m=0
+//                         index = i;
+//                     }
+//                     i++;
+//                     current = current ->next;
+//                 }
+//                 printf("index:%i\n",index);
+//                 putLast(index);
+//                 return deleteLast();
+//             }
+//         }
+//         else //If R = 1 then set it to zero and put it at the back and continue searching
+//         {
+//             current->page.R = 0;
+//             current->page.accessTime = newPage.accessTime;
+//             push(pop());                 //rag3 el page di fl a5r
+//             return popModified(newPage); //recursion
+//         }
+//     } else{
+//         // Here we are sure that all Rs are 1
+//         if(countR1M0()!=0){ // If there exists one with M0 then remove the first one
+//             if(current->page.M=0){
+//                 current->page.R = 0;
+//                 current->page.accessTime = newPage.accessTime;
+//                 push(pop());                 
+//                 return popModified(newPage); //recursion
+//             } else{
+                
+//                 int i = 0;
+//                 int index = -1;
+//                 while (current != NULL && index == -1)
+//                 {
+//                     if (current->page.R == 1 && current->page.M == 0)
+//                     {
+//                         index = i;
+//                     }
+//                     i++;
+//                     current = current ->next;
+//                 }
+//                 putLast(index);
+//                 return deleteLast();
+//             }
+//         } else{ // Here means all R is 1 and all M is 1 then remove first one
+//             return pop();
+//         }
+        
+//     }
+// }
 
-  node_t * current = head;
+struct Page popModified(struct Page newPage){
+    node_t *current = head;
 
-  if(current->page.R == 0){
-    int c =countRMzeros();
-    if(c == 0){ //then remove awel wa7da 3adi fiha m=0, w r=1 3adi
-        pop();
-        return current->page;
-    }else{ //kda fih combination m=0 and r=0, lazm ashoof di eh 3shan ashelha
-        while (current != NULL) {
-          if(current->page.R == 0 && current->page.M == 0){ //remove awel wa7da fiha r=0 and m=0
-            pop();
-            return current->page;
-          }
-            push(pop());
+    if(current->page.R == 0 && current->page.M==0){
+        return pop();
+    }else if(current->page.R == 1){
+        current->page.R = 0;
+        current->page.accessTime = newPage.accessTime;
+        push(pop());
+        return popModified(newPage);
+    } else{ // R=0 and M =1
+        if(countR0M1()==list_size()||countRMzeros()==0){ // ALL are R=0 and M=1 or no R=0 and M=0
+            return pop();
+        }else{
+            int i=0;
+            while(current!=NULL){
+                if(current->page.M==0){
+                    putLast(i);
+                    return deleteLast();
+                }
+                i++;
+                current = current->next;
+            }
         }
     }
-
-
-  }else{
-    current->page.R=0;
-    push(pop()); //rag3 el page di fl a5r
-    return popModified(); //recursion
-  }
-
 }
+
 
 void putLast(int index){
     node_t * current = head;
@@ -343,17 +463,26 @@ void putLast(int index){
     push(modifiedPage);
 }
 
+int findIndexById(int id)
+{
+    node_t * current = head;
+    int index = 0;
+    while(current!=NULL){
+        if(current->page.pageId==id){
+            return index;
+        }
+        index++;
+        current = current->next;
+    }
+}
 
 void print_list() {
     node_t * current = head;
-    printf("LINKED LIST: \n");
     fprintf(file,"LINKED LIST: \n");
     while (current != NULL) {
-        printf("pageID:%i, Access Time:%i, R:%i, W:%i\n", current->page.pageId,current->page.accessTime,current->page.R,current->page.M);
-        fprintf(file,"pageID:%i, Access Time:%i, R:%i, W:%i\n", current->page.pageId,current->page.accessTime,current->page.R,current->page.M);
+        fprintf(file,"pageID:%i, Access Time:%ims, R:%i, M:%i\n", current->page.pageId,current->page.accessTime,current->page.R,current->page.M);
         current = current->next;
     }
-    printf("************************************\n");
     fprintf(file,"************************************\n");
 }
 
@@ -367,7 +496,7 @@ void printPagesArray(struct PageRequest pages[], int size)
     for (i = 0; i < size; i += 1)
     {
         printf("Page ID: %i ,", pages[i].pageId);
-        printf("access time: %i ,", pages[i].accessTime);
+        printf("access time: %ims ,", pages[i].accessTime);
         printf("access type: %i\n", pages[i].accessType);
     }
     printf("********************************************\n");

@@ -19,21 +19,23 @@ Time: 10ms, id of loaded page: 6, id of evicted page:0
 TIME INTERRUPT : 20ms
 *****************************************
 PAGE FAULT
-Time: 27ms, id of loaded page: 7, id of evicted page:1
+Time: 27ms, id of loaded page: 7, id of evicted page:3
+*****************************************
+PAGE FAULT
+Time: 28ms, id of loaded page: 8, id of evicted page:4
+*****************************************
+PAGE FAULT
+Time: 29ms, id of loaded page: 9, id of evicted page:1
 Evicted Page Written Back to disk
 *****************************************
 PAGE FAULT
-Time: 28ms, id of loaded page: 8, id of evicted page:2
-Evicted Page Written Back to disk
+Time: 32ms, id of loaded page: 1, id of evicted page:7
 *****************************************
 PAGE FAULT
-Time: 29ms, id of loaded page: 9, id of evicted page:3
+Time: 35ms, id of loaded page: 7, id of evicted page:8
 *****************************************
 PAGE FAULT
-Time: 32ms, id of loaded page: 1, id of evicted page:4
-*****************************************
-PAGE FAULT
-Time: 33ms, id of loaded page: 2, id of evicted page:6
+Time: 39ms, id of loaded page: 8, id of evicted page:6
 Evicted Page Written Back to disk
 *****************************************
 TIME INTERRUPT : 40ms
@@ -45,14 +47,15 @@ PAGE FAULT
 Time: 46ms, id of loaded page: 11, id of evicted page:8
 *****************************************
 PAGE FAULT
-Time: 47ms, id of loaded page: 12, id of evicted page:9
+Time: 47ms, id of loaded page: 12, id of evicted page:1
+*****************************************
+PAGE FAULT
+Time: 50ms, id of loaded page: 7, id of evicted page:9
 Evicted Page Written Back to disk
 *****************************************
 PAGE FAULT
-Time: 50ms, id of loaded page: 7, id of evicted page:1
-*****************************************
-PAGE FAULT
 Time: 51ms, id of loaded page: 8, id of evicted page:2
+Evicted Page Written Back to disk
 *****************************************
 PAGE FAULT
 Time: 52ms, id of loaded page: 9, id of evicted page:10
@@ -61,21 +64,20 @@ PAGE FAULT
 Time: 54ms, id of loaded page: 1, id of evicted page:11
 *****************************************
 PAGE FAULT
-Time: 55ms, id of loaded page: 2, id of evicted page:12
+Time: 55ms, id of loaded page: 2, id of evicted page:7
+*****************************************
+PAGE FAULT
+Time: 56ms, id of loaded page: 3, id of evicted page:8
+*****************************************
+PAGE FAULT
+Time: 58ms, id of loaded page: 14, id of evicted page:12
 Evicted Page Written Back to disk
 *****************************************
 PAGE FAULT
-Time: 56ms, id of loaded page: 3, id of evicted page:7
-*****************************************
-PAGE FAULT
-Time: 58ms, id of loaded page: 14, id of evicted page:8
-*****************************************
-PAGE FAULT
-Time: 59ms, id of loaded page: 15, id of evicted page:9
-Evicted Page Written Back to disk
+Time: 59ms, id of loaded page: 15, id of evicted page:1
 *****************************************
 TIME INTERRUPT : 60ms
 *****************************************
 PAGE FAULT
-Time: 60ms, id of loaded page: 19, id of evicted page:1
+Time: 60ms, id of loaded page: 19, id of evicted page:2
 *****************************************

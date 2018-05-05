@@ -1,0 +1,463 @@
+PAGE FAULT
+Time: 0ms
+id of loaded page: 0
+id of evicted page: n/a
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 1ms
+id of loaded page: 1
+id of evicted page: n/a
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 2ms
+id of modified page: 1
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:1
+************************************
+PAGE FAULT
+Time: 4ms
+id of loaded page: 2
+id of evicted page: n/a
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:1
+pageID:2, Access Time:4ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 5ms
+id of loaded page: 3
+id of evicted page: n/a
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:1
+pageID:2, Access Time:4ms, R:1, M:0
+pageID:3, Access Time:5ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 7ms
+id of loaded page: 4
+id of evicted page: n/a
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:1
+pageID:2, Access Time:4ms, R:1, M:0
+pageID:3, Access Time:5ms, R:1, M:0
+pageID:4, Access Time:7ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 8ms
+id of modified page: 0
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:1
+pageID:2, Access Time:4ms, R:1, M:0
+pageID:3, Access Time:5ms, R:1, M:0
+pageID:4, Access Time:7ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 9ms
+id of modified page: 0
+LINKED LIST: 
+pageID:0, Access Time:0ms, R:1, M:0
+pageID:1, Access Time:1ms, R:1, M:1
+pageID:2, Access Time:4ms, R:1, M:0
+pageID:3, Access Time:5ms, R:1, M:0
+pageID:4, Access Time:7ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 10ms
+id of loaded page: 6
+id of evicted page:0
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:0, M:0
+pageID:3, Access Time:10ms, R:0, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 11ms
+id of modified page: 6
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:0, M:0
+pageID:3, Access Time:10ms, R:0, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+************************************
+PAGE FOUND
+Time: 12ms
+id of modified page: 3
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:0, M:0
+pageID:3, Access Time:10ms, R:1, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+************************************
+PAGE FOUND
+Time: 15ms
+id of modified page: 4
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:0, M:0
+pageID:3, Access Time:10ms, R:1, M:0
+pageID:4, Access Time:10ms, R:1, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+************************************
+TIME INTERRUPT : 20ms
+*****************************************
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:0, M:0
+pageID:3, Access Time:10ms, R:0, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:0, M:1
+************************************
+PAGE FOUND
+Time: 20ms
+id of modified page: 6
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:0, M:0
+pageID:3, Access Time:10ms, R:0, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+************************************
+PAGE FOUND
+Time: 24ms
+id of modified page: 2
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:1, M:0
+pageID:3, Access Time:10ms, R:0, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+************************************
+PAGE FOUND
+Time: 25ms
+id of modified page: 2
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:1, M:1
+pageID:3, Access Time:10ms, R:0, M:0
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+************************************
+PAGE FAULT
+Time: 27ms
+id of loaded page: 7
+id of evicted page:3
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:1, M:1
+pageID:4, Access Time:10ms, R:0, M:0
+pageID:6, Access Time:10ms, R:1, M:1
+pageID:7, Access Time:27ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 28ms
+id of loaded page: 8
+id of evicted page:4
+LINKED LIST: 
+pageID:1, Access Time:10ms, R:0, M:1
+pageID:2, Access Time:10ms, R:1, M:1
+pageID:6, Access Time:10ms, R:1, M:1
+pageID:7, Access Time:27ms, R:1, M:0
+pageID:8, Access Time:28ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 29ms
+id of loaded page: 9
+id of evicted page:1
+Evicted Page Written Back to disk
+LINKED LIST: 
+pageID:2, Access Time:10ms, R:1, M:1
+pageID:6, Access Time:10ms, R:1, M:1
+pageID:7, Access Time:27ms, R:1, M:0
+pageID:8, Access Time:28ms, R:1, M:0
+pageID:9, Access Time:29ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 30ms
+id of modified page: 9
+LINKED LIST: 
+pageID:2, Access Time:10ms, R:1, M:1
+pageID:6, Access Time:10ms, R:1, M:1
+pageID:7, Access Time:27ms, R:1, M:0
+pageID:8, Access Time:28ms, R:1, M:0
+pageID:9, Access Time:29ms, R:1, M:1
+************************************
+PAGE FAULT
+Time: 32ms
+id of loaded page: 1
+id of evicted page:7
+LINKED LIST: 
+pageID:2, Access Time:32ms, R:0, M:1
+pageID:6, Access Time:32ms, R:0, M:1
+pageID:8, Access Time:32ms, R:0, M:0
+pageID:9, Access Time:32ms, R:0, M:1
+pageID:1, Access Time:32ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 33ms
+id of modified page: 2
+LINKED LIST: 
+pageID:2, Access Time:32ms, R:1, M:1
+pageID:6, Access Time:32ms, R:0, M:1
+pageID:8, Access Time:32ms, R:0, M:0
+pageID:9, Access Time:32ms, R:0, M:1
+pageID:1, Access Time:32ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 35ms
+id of loaded page: 7
+id of evicted page:8
+LINKED LIST: 
+pageID:6, Access Time:32ms, R:0, M:1
+pageID:9, Access Time:32ms, R:0, M:1
+pageID:1, Access Time:32ms, R:1, M:0
+pageID:2, Access Time:35ms, R:0, M:1
+pageID:7, Access Time:35ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 39ms
+id of loaded page: 8
+id of evicted page:6
+Evicted Page Written Back to disk
+LINKED LIST: 
+pageID:9, Access Time:32ms, R:0, M:1
+pageID:1, Access Time:32ms, R:1, M:0
+pageID:2, Access Time:35ms, R:0, M:1
+pageID:7, Access Time:35ms, R:1, M:0
+pageID:8, Access Time:39ms, R:1, M:0
+************************************
+TIME INTERRUPT : 40ms
+*****************************************
+LINKED LIST: 
+pageID:9, Access Time:32ms, R:0, M:1
+pageID:1, Access Time:32ms, R:0, M:0
+pageID:2, Access Time:35ms, R:0, M:1
+pageID:7, Access Time:35ms, R:0, M:0
+pageID:8, Access Time:39ms, R:0, M:0
+************************************
+PAGE FOUND
+Time: 41ms
+id of modified page: 9
+LINKED LIST: 
+pageID:9, Access Time:32ms, R:1, M:1
+pageID:1, Access Time:32ms, R:0, M:0
+pageID:2, Access Time:35ms, R:0, M:1
+pageID:7, Access Time:35ms, R:0, M:0
+pageID:8, Access Time:39ms, R:0, M:0
+************************************
+PAGE FOUND
+Time: 42ms
+id of modified page: 9
+LINKED LIST: 
+pageID:9, Access Time:32ms, R:1, M:1
+pageID:1, Access Time:32ms, R:0, M:0
+pageID:2, Access Time:35ms, R:0, M:1
+pageID:7, Access Time:35ms, R:0, M:0
+pageID:8, Access Time:39ms, R:0, M:0
+************************************
+PAGE FOUND
+Time: 43ms
+id of modified page: 1
+LINKED LIST: 
+pageID:9, Access Time:32ms, R:1, M:1
+pageID:1, Access Time:32ms, R:1, M:0
+pageID:2, Access Time:35ms, R:0, M:1
+pageID:7, Access Time:35ms, R:0, M:0
+pageID:8, Access Time:39ms, R:0, M:0
+************************************
+PAGE FOUND
+Time: 44ms
+id of modified page: 2
+LINKED LIST: 
+pageID:9, Access Time:32ms, R:1, M:1
+pageID:1, Access Time:32ms, R:1, M:0
+pageID:2, Access Time:35ms, R:1, M:1
+pageID:7, Access Time:35ms, R:0, M:0
+pageID:8, Access Time:39ms, R:0, M:0
+************************************
+PAGE FAULT
+Time: 45ms
+id of loaded page: 10
+id of evicted page:7
+LINKED LIST: 
+pageID:8, Access Time:39ms, R:0, M:0
+pageID:9, Access Time:45ms, R:0, M:1
+pageID:1, Access Time:45ms, R:0, M:0
+pageID:2, Access Time:45ms, R:0, M:1
+pageID:10, Access Time:45ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 46ms
+id of loaded page: 11
+id of evicted page:8
+LINKED LIST: 
+pageID:9, Access Time:45ms, R:0, M:1
+pageID:1, Access Time:45ms, R:0, M:0
+pageID:2, Access Time:45ms, R:0, M:1
+pageID:10, Access Time:45ms, R:1, M:0
+pageID:11, Access Time:46ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 47ms
+id of loaded page: 12
+id of evicted page:1
+LINKED LIST: 
+pageID:9, Access Time:45ms, R:0, M:1
+pageID:2, Access Time:45ms, R:0, M:1
+pageID:10, Access Time:45ms, R:1, M:0
+pageID:11, Access Time:46ms, R:1, M:0
+pageID:12, Access Time:47ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 49ms
+id of modified page: 12
+LINKED LIST: 
+pageID:9, Access Time:45ms, R:0, M:1
+pageID:2, Access Time:45ms, R:0, M:1
+pageID:10, Access Time:45ms, R:1, M:0
+pageID:11, Access Time:46ms, R:1, M:0
+pageID:12, Access Time:47ms, R:1, M:1
+************************************
+PAGE FAULT
+Time: 50ms
+id of loaded page: 7
+id of evicted page:9
+Evicted Page Written Back to disk
+LINKED LIST: 
+pageID:2, Access Time:45ms, R:0, M:1
+pageID:10, Access Time:45ms, R:1, M:0
+pageID:11, Access Time:46ms, R:1, M:0
+pageID:12, Access Time:47ms, R:1, M:1
+pageID:7, Access Time:50ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 51ms
+id of loaded page: 8
+id of evicted page:2
+Evicted Page Written Back to disk
+LINKED LIST: 
+pageID:10, Access Time:45ms, R:1, M:0
+pageID:11, Access Time:46ms, R:1, M:0
+pageID:12, Access Time:47ms, R:1, M:1
+pageID:7, Access Time:50ms, R:1, M:0
+pageID:8, Access Time:51ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 52ms
+id of loaded page: 9
+id of evicted page:10
+LINKED LIST: 
+pageID:11, Access Time:52ms, R:0, M:0
+pageID:12, Access Time:52ms, R:0, M:1
+pageID:7, Access Time:52ms, R:0, M:0
+pageID:8, Access Time:52ms, R:0, M:0
+pageID:9, Access Time:52ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 53ms
+id of modified page: 9
+LINKED LIST: 
+pageID:11, Access Time:52ms, R:0, M:0
+pageID:12, Access Time:52ms, R:0, M:1
+pageID:7, Access Time:52ms, R:0, M:0
+pageID:8, Access Time:52ms, R:0, M:0
+pageID:9, Access Time:52ms, R:1, M:1
+************************************
+PAGE FAULT
+Time: 54ms
+id of loaded page: 1
+id of evicted page:11
+LINKED LIST: 
+pageID:12, Access Time:52ms, R:0, M:1
+pageID:7, Access Time:52ms, R:0, M:0
+pageID:8, Access Time:52ms, R:0, M:0
+pageID:9, Access Time:52ms, R:1, M:1
+pageID:1, Access Time:54ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 55ms
+id of loaded page: 2
+id of evicted page:7
+LINKED LIST: 
+pageID:12, Access Time:52ms, R:0, M:1
+pageID:8, Access Time:52ms, R:0, M:0
+pageID:9, Access Time:52ms, R:1, M:1
+pageID:1, Access Time:54ms, R:1, M:0
+pageID:2, Access Time:55ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 56ms
+id of loaded page: 3
+id of evicted page:8
+LINKED LIST: 
+pageID:12, Access Time:52ms, R:0, M:1
+pageID:9, Access Time:52ms, R:1, M:1
+pageID:1, Access Time:54ms, R:1, M:0
+pageID:2, Access Time:55ms, R:1, M:0
+pageID:3, Access Time:56ms, R:1, M:0
+************************************
+PAGE FOUND
+Time: 57ms
+id of modified page: 3
+LINKED LIST: 
+pageID:12, Access Time:52ms, R:0, M:1
+pageID:9, Access Time:52ms, R:1, M:1
+pageID:1, Access Time:54ms, R:1, M:0
+pageID:2, Access Time:55ms, R:1, M:0
+pageID:3, Access Time:56ms, R:1, M:1
+************************************
+PAGE FAULT
+Time: 58ms
+id of loaded page: 14
+id of evicted page:12
+Evicted Page Written Back to disk
+LINKED LIST: 
+pageID:9, Access Time:52ms, R:1, M:1
+pageID:1, Access Time:54ms, R:1, M:0
+pageID:2, Access Time:55ms, R:1, M:0
+pageID:3, Access Time:56ms, R:1, M:1
+pageID:14, Access Time:58ms, R:1, M:0
+************************************
+PAGE FAULT
+Time: 59ms
+id of loaded page: 15
+id of evicted page:1
+LINKED LIST: 
+pageID:9, Access Time:59ms, R:0, M:1
+pageID:2, Access Time:59ms, R:0, M:0
+pageID:3, Access Time:59ms, R:0, M:1
+pageID:14, Access Time:59ms, R:0, M:0
+pageID:15, Access Time:59ms, R:1, M:0
+************************************
+TIME INTERRUPT : 60ms
+*****************************************
+LINKED LIST: 
+pageID:9, Access Time:59ms, R:0, M:1
+pageID:2, Access Time:59ms, R:0, M:0
+pageID:3, Access Time:59ms, R:0, M:1
+pageID:14, Access Time:59ms, R:0, M:0
+pageID:15, Access Time:59ms, R:0, M:0
+************************************
+PAGE FAULT
+Time: 60ms
+id of loaded page: 19
+id of evicted page:2
+LINKED LIST: 
+pageID:9, Access Time:59ms, R:0, M:1
+pageID:3, Access Time:59ms, R:0, M:1
+pageID:14, Access Time:59ms, R:0, M:0
+pageID:15, Access Time:59ms, R:0, M:0
+pageID:19, Access Time:60ms, R:1, M:0
+************************************
