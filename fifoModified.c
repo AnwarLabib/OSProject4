@@ -42,6 +42,8 @@ struct Page getLastItem();
 struct Page popModified();
 void putLast(int index);
 void print_list();
+int countRMzeros();
+int pindex;
 
 //ATTRIBUTES
 int countOfPageRequests; // total number of page requests
@@ -175,13 +177,13 @@ void handlNotFault(struct PageRequest pageRequest){
             } else{
                 current->page.M = 1;
             }
-            current->page.accessTime = pageRequest.accessTime;
+            //current->page.accessTime = pageRequest.accessTime;
             pageIndex=index;
         }
         index++;
         current = current->next;
     }
-    putLast(pageIndex);
+  //  putLast(pageIndex);
     print_list(head);
 }
 
@@ -275,14 +277,47 @@ struct Page pop() {
 //   }
 // }
 
+int countRMzeros(){
+
+    int count = 0;
+    int size = 0;
+    pindex = -1;
+    node_t * current = head;
+
+    while (current != NULL) {
+        if(current->page.R == 0 && current->page.M == 0 && pindex == -1){
+          count++; //if the count is zero, i have no combinations of r and m = 0, so remove first one with zero
+          pindex = size;
+        }
+        current = current->next;
+        size++;
+    }
+    printf("Count of RM zero: %i\n", count);
+    printf("%i\n", pindex);
+    return count;
+}
+
 struct Page popModified(){
   //struct Page lastItem = getLastItem();
 
   node_t * current = head;
 
   if(current->page.R == 0){
-    pop();
-    return current->page;
+    int c =countRMzeros();
+    if(c == 0){ //then remove awel wa7da 3adi fiha m=0, w r=1 3adi
+        pop();
+        return current->page;
+    }else{ //kda fih combination m=0 and r=0, lazm ashoof di eh 3shan ashelha
+        while (current != NULL) {
+          if(current->page.R == 0 && current->page.M == 0){ //remove awel wa7da fiha r=0 and m=0
+            pop();
+            return current->page;
+          }
+            push(pop());
+        }
+    }
+
+
   }else{
     current->page.R=0;
     push(pop()); //rag3 el page di fl a5r
